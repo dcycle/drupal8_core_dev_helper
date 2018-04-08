@@ -1,0 +1,30 @@
+---
+version: '2'
+
+services:
+  drupal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80"
+    volumes:
+      - ./drupal/core:/var/www/html/core
+      - drupal_files:/var/www/html/sites/default/files
+    links:
+      - mysql:mysql
+    working_dir: /var/www/html
+
+  # Database server
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: drupal
+      MYSQL_ROOT_PASSWORD: drupal
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+    volumes:
+      - "mysql:/var/lib/mysql"
+
+volumes:
+  drupal_files:
+  mysql:
