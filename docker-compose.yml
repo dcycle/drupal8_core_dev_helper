@@ -11,13 +11,16 @@ services:
     volumes:
       - ./drupal/core:/var/www/html/core
       - drupal_files:/var/www/html/sites/default/files
+    environment:
+      SIMPLETEST_DB: mysql://root:drupal@mysql/drupal
+      SIMPLETEST_BASE_URL: http://localhost
     links:
       - mysql:mysql
     working_dir: /var/www/html
 
   # Database server
   mysql:
-    image: mysql
+    image: mariadb
     environment:
       MYSQL_DATABASE: drupal
       MYSQL_ROOT_PASSWORD: drupal
